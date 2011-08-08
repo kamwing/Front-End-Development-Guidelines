@@ -88,9 +88,7 @@
 			
 			<script type="syntaxhighlighter" class="brush: xml;  toolbar: false; gutter: false;"><![CDATA[
 				<h1>A Heading</h1>
-				<p>
-					Lorem ipsum dolor sit amet. ...
-				</p>
+				<p>Lorem ipsum dolor sit amet. ...</p>
 			]]></script>
 		</div>
 		
@@ -99,7 +97,7 @@
 		
 		
 		
-		<div id="accessibilityMicroformats" class="entry">
+<!-- 		<div id="accessibilityMicroformats" class="entry">
 			<h2>Use Microformats</h2>
 			
 			<p>
@@ -121,7 +119,7 @@
 				For more information: <a href="http://microformats.org/wiki/hcard" target="_blank">http://microformats.org/wiki/hcard</a>
 			</p>
 		</div>
-		
+ -->		
 		
 		
 		
@@ -188,12 +186,11 @@
 		
 		
 		
-		<div id="accessibilityJqueryWidgets" class="entry">
-			<h2>Use jQuery &amp; jQuery UI Widgets</h2>
+		<div id="jQuery" class="entry">
+			<h2>Use jQuery</h2>
 			
 			<p>
-				jQuery and jQuery UI are constructed to look and behave as close to identical as possible on different browsers. 
-				jQuery UI is designed to be WAI WCAG 2.0 and WAI ARIA compliant, so using the framework removes any uncertainty about plugins or scripts running on your site.
+				jQuery is constructed to look and behave as close to identical as possible on different browsers.
 			</p>
 		</div>
 		
@@ -269,6 +266,18 @@
 				<strong>Strings should always use double quotes</strong>. Some people are very fond of their C style strings (single quotes), but this leads to conflicting styles within a script.
 				C style string handling dictates that empty and single character strings should be wrapped in single quotations, while phrases and words should be wrapped in double quotations.
 			</p>
+
+			<p>
+				The lone exemption occurs when quoting HTML markup. This is acceptable:
+			</p>
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				// Ugly
+				var markup = "<div class=\"test\"></div>";
+
+				// Acceptable
+				var markup = '<div class="test"></div>';
+			]]></script>
 			
 		</div>
 		
@@ -626,7 +635,7 @@
 		
 		
 		
-		<div id="javascriptRemapThis" class="entry">
+<!-- 		<div id="javascriptRemapThis" class="entry">
 			<h2>Remap &lsquo;this&rsquo; to &lsquo;self&rsquo;</h2>
 			
 			<p>
@@ -686,7 +695,7 @@
 			]]></script>
 			
 		</div>
-		
+ -->		
 		
 		
 		
@@ -779,7 +788,7 @@
 		
 		
 		
-		<div id="jqueryChain" class="entry">
+<!-- 		<div id="jqueryChain" class="entry">
 			<h2>Chain Like a Sick Bitch</h2>
 			
 			<p>
@@ -800,7 +809,7 @@
 			</p>
 			
 		</div>
-		
+ -->		
 		
 		
 		
@@ -873,13 +882,14 @@
 			]]></script>
 			
 			<p>
-				Ignoring chaining, this is better:
+				This is better:
 			</p>
 			
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 			
 				// before
 				var $quoteLinks = $(".quote a");  // the only DOM query
+
 				$quoteLinks.bind("click", doStuff);
 				
 				// now
@@ -954,8 +964,33 @@
 		
 		
 		
-		
-		
+		<div id="sass">
+			<h2>SASS + Compass</h2>
+
+			<p>
+				Use <a href="http://sass-lang.com/">SASS</a> to compile your CSS files.
+			</p>
+
+			<p>
+				Sass is an extension of CSS3, adding nested rules, variables, mixins, selector inheritance, and more. It’s translated to well-formatted, standard CSS using the command line tool or a web-framework plugin.
+			</p>
+
+			<p>
+				Sass has two syntaxes. The new main syntax (as of Sass 3) is known as “SCSS” (for “Sassy CSS”), and is a superset of CSS3’s syntax. This means that every valid CSS3 stylesheet is valid SCSS as well. SCSS files use the extension .scss.
+			</p>
+
+			<p>
+				The second, older syntax is known as the indented syntax (or just “Sass”). It's considered too different from CSS and should not be used for development.
+			</p>
+		</div>
+
+		<div id="css">
+			<h2>Compiled CSS</h2>
+
+			<p>
+				<strong>Never edit a compiled style sheet directly.</strong> It will be overwritten once the master .scss file has been modified and saved. If there is any confusion on whether the style sheet is compiled, assume that it is.
+			</p>
+		</div>
 		
 		
 		<div id="cssWhitespacing" class="entry">
@@ -970,9 +1005,6 @@
 			<script type="syntaxhighlighter" class="brush: css;  toolbar: false; gutter: false;"><![CDATA[
 				/* BAD */
 				.selector {display:none;background:#ff0000;color:#000000;} 
-				
-				/* GOOD - SINGLE LINE */
-				.selector { display: none; background: #ff0000; color: #000000; } 
 				
 				/* GOOD - MULTI-LINE */
 				.selector {
@@ -995,26 +1027,25 @@
 			<h3>Indenting Child Elements</h3>
 			
 			<p>
-				Purely optional, and personally only employed when in a document with single line declarations.
+				SASS provides support for indentation. Always indent child elements to avoid <abbr title="Don't Repeat Yourself">DRY</abbr>.
 			</p>
 			
 			<script type="syntaxhighlighter" class="brush: css;  toolbar: false; gutter: false;"><![CDATA[
-				.selector { display: none; background: #ff0000; color: #000000; }
-					.selector a { text-decoration: none; }
-					.selector span { font-weight: bold; }
-			]]></script>
-			
-			<h3>Grouping &amp; Indenting Vendor Prefixes</h3>
-			
-			<script type="syntaxhighlighter" class="brush: css;  toolbar: false; gutter: false;"><![CDATA[
-				.selector { 
-					background: #FFF; border: 1px solid #000; color: #EAEAEA;
-						-webkit-border-radius: 3px;
-						-moz-border-radius: 3px;
-						border-radius: 3px;
+				.selector {
+					display: none;
+					background: #ff0000;
+					color: #000000;
+
+					a {
+						text-decoration: none;
+					}
+
+					span {
+						font-weight: bold;
+					}
 				}
 			]]></script>
-			
+ 
 		</div>
 		
 		
@@ -1082,15 +1113,27 @@
 			
 			<script type="syntaxhighlighter" class="brush: css;  toolbar: false; gutter: false;"><![CDATA[
 					/* === HORIZONTAL NAV === */
-					#horizNav { width: 100%; display: block; }
-					#horizNav li { display: block; float: left; position: relative; }
-					#horizNav li a { display: block; height: 30px; text-decoration: none; }
-					#horizNav li ul { display: none; position: absolute; top: 30; left: 0; }
+					#horizNav {
+						width: 100%;
+						display: block;
+					}
+
+					#horizNav li {
+						display: block;
+						float: left;
+						position: relative;
+					}
 					
 					/* === HOME PAGE - CAROUSEL === */
-					#carousel { width: 960px; height: 150px; position: relative; }
-					#carousel img { display: none; }
-					#carousel .buttons { position: absolute; right: 10px; bottom: 10px; }
+					#carousel {
+						width: 960px;
+						height: 150px;
+						position: relative;
+					}
+
+					#carousel img {
+						display: none;
+					}
 			]]></script>
 			
 		</div>
