@@ -326,7 +326,6 @@
 				Commenting, in this scenario at least, is completely unnecessary. Here's a couple other examples of intuitive boolean naming:
 			</p>
 
-
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 				
 				var isActive = true,
@@ -519,7 +518,113 @@
 		</div>
 		
 		
-		
+		<div id="rosyVariables" class="entry">
+			<h2>Rosy Variables</h2>
+
+			<p>
+				Let's define variable conventions used in Rosy to represent classes, variables, and methods. 
+			</p>
+
+
+			<h3>Rosy Class Namespace</h3>
+
+			<p>
+				<strong>Use the extension namespace to imply inheritance.</strong> Let's take a look at an example:
+			</p> 
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				var LOLBlog = LOLBlog || {}; // Assume we are scripting for our sick website: LOLBlog. All Classes are contained under a single namespace (LOLBlog) that represents the entire Site!
+				
+				// Create a Page class for your LOLBlog
+				LOLBlog.Page = (function() {
+					return Class.extend({
+						
+						init : function() {
+							console.log("my page is initializing, woa!");
+						}
+
+					})
+				}.call(LOLBlog));
+					
+				LOLBlog.Page.Home = (function () { // this Rosy name and placement intuitively tells another coder that its for the LOLBlog, it's extends Page, and it's run on the Home-Page.
+					
+					return LOLBlog.Page.extend({ // see? we're extending Page
+						
+						init : function () {
+							this.sup(); // --> "my page is initializing, woa!"
+							console.log("now my home page is initializing...")
+						}
+						
+					});
+				}.call(LOLBlog)); // new LOLBlog.Page.Home();
+
+			]]></script>
+
+			<h3>Camel Case Class Names, hyphenate file names</h3>
+
+			<p>
+				Example: <code>TwitterPoll</code> is a Module on your blog.  Place it in the correct namespace and camel case it like so <code>LOLBlog.Module.TwitterPoll</code>. Save it in a file like so <code>lolblog/module/twitter-poll.js</code>. Boo-ya, organized. 
+			</p>
+
+			<h3>jQuery Variables</h3>
+
+			<p>
+				Caching your jQuery <code>$(selectors)</code> is considered most awesome.
+			</p>
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				
+				// Bad, selecting the same element over and over is wasteful.
+				LOLBlog.MyModule = (function() {
+					return Class.extend({
+
+						init: function() {
+							this.show();
+							this.hide();
+						},
+
+						show : function() {
+							$("article.funny").fadeIn(); // BAD, the jQuery selector look-up shouldn't be done more than once 
+						},
+
+						hide: function() {
+							$("article.funny").fadeOut(); // bad
+						}
+
+					})
+				}.call(LOLBlog)); // var mod = new LOLBlog.MyModule(); 
+
+				// Good, cache your selectors like this with a private var or as a class var (for extension purposes)
+				LOLBlog.MyModule = (function() {
+					
+					var $articles; // notice there's a $ preprended to this var, that way you know it's intended for use with jQuery
+
+					return Class.extend({
+
+						init : function() {
+							$articles = $("article.funny");
+							this.show();
+							this.hide();
+						},
+
+						show : function() {
+							$articles.fadeIn(); // BAD, the jQuery selector look-up shouldn't be done more than once 
+						},
+
+						hide: function() {
+							$articles.fadeOut(); // bad
+						}
+
+					})
+				}.call(LOLBlog)); // var mod = new LOLBlog.MyModule(); 
+
+			]]></script>
+
+			<p>
+				You'll notice that <code>$articles</code> has...well.. a <code>$</code> in front of it.  That's to ensure that you know the variable is a jQuery object!  Legibility convention....holla!
+			</p>
+
+		</div>
 		
 		
 		
