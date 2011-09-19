@@ -235,7 +235,7 @@
 			
 			<h3>Same Line Braces</h3>
 			<p>
-				Use same line braces in return statements to avoid unintentional <strong>automatic semicolon insertion</strong> and everywhere for consistency and legibility. 
+				Use same line braces in return statements to avoid unintentional <strong>automatic semicolon insertion</strong> and everywhere for consistency and legibility.
 			</p>
 
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
@@ -265,7 +265,7 @@
 			
 
 			<h3>Always Using Braces</h3>
-			
+
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 				// Bad
 				if (foo)
@@ -323,8 +323,17 @@
 			]]></script>
 			
 			<p>
-				Commenting, in this scenario at least, is completely unnecessary.
+				Commenting, in this scenario at least, is completely unnecessary. Here's a couple other examples for intuitive boolean naming:
 			</p>
+
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				
+				var isActive = true,
+					canDrag = true,
+					hasCSSTransitions = true;
+
+			]]></script>
 			
 			<h3>SITUATIONS WHERE COMMENTING IS IMPORTANT</h3>
 			
