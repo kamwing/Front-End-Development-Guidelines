@@ -1039,12 +1039,22 @@
 			
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 			
-				// an ID search is the quickest possible query, then it just takes a list of the childNodes and matches the class
+				// 1.an ID search is the quickest possible query, then it just takes a list of the childNodes and matches the class
 				$("#quoteList").children(".quotes"); 
+
 				
-				// looks for the "foo" class only in the pre-defined bar element
-				$(".foo",bar); 
+				// This example looks for the "foo" class only in the pre-defined $bar element
+
+				var $bar = $(".bar"); // 1. cool use of caching!
+
+				$(".foo", $bar); // 2. BAD, hey it's close.. I mean, at least you're caching and optimizing your selectors, but be careful! If $bar is empty, you're actually not optimizing anything at all, you're selecting on the whooooole document.  So avoid this convention!
+
+				$bar.find(".foo"); // 3. quickest possible query; and if $bar is empty, no worries, your selector will come up empty too
+
 			]]></script>
+
+			
+				
 			
 		</div>
 		
@@ -1513,12 +1523,6 @@
 					JavaScript helper library
 				</li>
 				<li>
-					<a href="http://www.jqueryui.com" target="_blank">
-						jQuery UI					
-					</a>
-					does for UX/UI what jQuery does for JavaScript
-				</li>
-				<li>
 					<a href="http://www.modernizr.com" target="_blank">
 						Modernizr
 					</a>
@@ -1531,16 +1535,16 @@
 					brings responsive layouts to older browsers
 				</li>
 				<li>
+					Follow
+					<a href="http://twitter.com/#!/functionSource" target="_blank">
+						@functionSource
+					</a>
+					for a lot of great mainly web-related technology news!
+				<li>
 					<a href="http://www.fontsquirrel.com/fontface/generator" target="_blank">
 						@font-face Generator
 					</a>
 					font embedding for all!
-				</li>
-				<li>
-					<a href="http://www.raphaeljs.com" target="_blank">
-						RaphaelJS
-					</a>
-					 easy cross browser vector drawing
 				</li>
 			</ul>
 			
