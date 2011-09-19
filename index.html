@@ -234,20 +234,36 @@
 			]]></script>
 			
 			<h3>Same Line Braces</h3>
-			
+			<p>
+				Use same line braces in return statements to avoid unintentional <strong>automatic semicolon insertion</strong> and everywhere for consistency and legibility. 
+			</p>
+
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
-				// Bad
-				if (foo)
-				{
-					bar();
+				// 1. Bad, intended to return {foo:"test"}
+				function wasup() {
+					return // notice lack of semicoln
+					{
+						hai: 'nom'
+					};
+				}
+
+				// 2. Browser interprets this function as
+				function wasup() {
+					return; // notice the semicolon automatically inserted
+					{
+						hai: 'nom'
+					};
 				}
 				
-				// Good :)
-				if (foo) {
-					bar();
+				// 3. Good :), function interpreted as intended
+				function wasup {
+					return {
+						foo: 'nom'
+					};
 				}
 			]]></script>
 			
+
 			<h3>Always Using Braces</h3>
 			
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
@@ -276,7 +292,7 @@
 				var markup = "<div class=\"test\"></div>";
 
 				// Acceptable
-				var markup = '<div class="test"></div>';
+				var markup = '<div class="test"></div>'; // consider using a jQuery template for best transparency 
 			]]></script>
 			
 		</div>
