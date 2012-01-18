@@ -157,7 +157,7 @@
 				Tables should only ever be used for the presentation of tabular data. The only exception is when composing HTML email, in which a table is almost the only thing supported by soul crushing email clients.
 			</p>
 			<p>
-				For accessibility, table headers should always be presented using <code>&lt;th&gt;</code> elements. In .NET datagrids, this can be enabled by setting <code>showAccessibleHeader</code> to true. 
+				For accessibility, table headers should always be presented using <code>&lt;th&gt;</code> elements.
 				Remember to also set <code>cellpadding</code>, <code>cellspacing</code> and <code>border</code> values to <code>0</code> as these are more consistently controlled by CSS.
 			</p>
 			
@@ -234,22 +234,38 @@
 			]]></script>
 			
 			<h3>Same Line Braces</h3>
-			
+			<p>
+				Use same line braces in return statements to avoid unintentional <strong>automatic semicolon insertion</strong> and everywhere for consistency and legibility.
+			</p>
+
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
-				// Bad
-				if (foo)
-				{
-					bar();
+				// 1. Bad, intended to return {foo:"test"}
+				function wasup() {
+					return // notice lack of semicoln
+					{
+						hai: 'nom'
+					};
+				}
+
+				// 2. Browser interprets this function as
+				function wasup() {
+					return; // notice the semicolon automatically inserted
+					{
+						hai: 'nom'
+					};
 				}
 				
-				// Good :)
-				if (foo) {
-					bar();
+				// 3. Good :), function interpreted as intended
+				function wasup {
+					return {
+						foo: 'nom'
+					};
 				}
 			]]></script>
 			
+
 			<h3>Always Using Braces</h3>
-			
+
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 				// Bad
 				if (foo)
@@ -276,7 +292,7 @@
 				var markup = "<div class=\"test\"></div>";
 
 				// Acceptable
-				var markup = '<div class="test"></div>';
+				var markup = '<div class="test"></div>'; // consider using a jQuery template for best transparency 
 			]]></script>
 			
 		</div>
@@ -307,8 +323,16 @@
 			]]></script>
 			
 			<p>
-				Commenting, in this scenario at least, is completely unnecessary.
+				Commenting, in this scenario at least, is completely unnecessary. Here's a couple other examples of intuitive boolean naming:
 			</p>
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				
+				var isActive = true,
+					canDrag = true,
+					hasCSSTransitions = true; // I can has boolean...
+
+			]]></script>
 			
 			<h3>SITUATIONS WHERE COMMENTING IS IMPORTANT</h3>
 			
@@ -494,7 +518,113 @@
 		</div>
 		
 		
-		
+		<div id="rosyVariables" class="entry">
+			<h2>Rosy Variables</h2>
+
+			<p>
+				Let's define variable conventions used in Rosy to represent classes, variables, and methods. 
+			</p>
+
+
+			<h3>Rosy Class Namespace</h3>
+
+			<p>
+				<strong>Use the extension namespace to imply inheritance.</strong> Let's take a look at an example:
+			</p> 
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				var LOLBlog = LOLBlog || {}; // Assume we are scripting for our sick website: LOLBlog. All Classes are contained under a single namespace (LOLBlog) that represents the entire Site!
+				
+				// Create a Page class for your LOLBlog
+				LOLBlog.Page = (function() {
+					return Class.extend({
+						
+						init : function() {
+							console.log("my page is initializing, woa!");
+						}
+
+					})
+				}.call(LOLBlog));
+					
+				LOLBlog.Page.Home = (function () { // this Rosy name and placement intuitively tells another coder that its for the LOLBlog, it's extends Page, and it's run on the Home-Page.
+					
+					return LOLBlog.Page.extend({ // see? we're extending Page
+						
+						init : function () {
+							this.sup(); // --> "my page is initializing, woa!"
+							console.log("now my home page is initializing...")
+						}
+						
+					});
+				}.call(LOLBlog)); // new LOLBlog.Page.Home();
+
+			]]></script>
+
+			<h3>Camel Case Class Names, hyphenate file names</h3>
+
+			<p>
+				Example: <code>TwitterPoll</code> is a Module on your blog.  Place it in the correct namespace and camel case it like so <code>LOLBlog.Module.TwitterPoll</code>. Save it in a file like so <code>lolblog/module/twitter-poll.js</code>. Boo-ya, organized. 
+			</p>
+
+			<h3>jQuery Variables</h3>
+
+			<p>
+				Caching your jQuery <code>$(selectors)</code> is considered most awesome.
+			</p>
+
+			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
+				
+				// Bad, selecting the same element over and over is wasteful.
+				LOLBlog.MyModule = (function() {
+					return Class.extend({
+
+						init: function() {
+							this.show();
+							this.hide();
+						},
+
+						show : function() {
+							$("article.funny").fadeIn(); // BAD, the jQuery selector look-up shouldn't be done more than once 
+						},
+
+						hide: function() {
+							$("article.funny").fadeOut(); // bad
+						}
+
+					})
+				}.call(LOLBlog)); // var mod = new LOLBlog.MyModule(); 
+
+				// Good, cache your selectors like this with a private var or as a class var (for extension purposes)
+				LOLBlog.MyModule = (function() {
+					
+					var $articles; // notice there's a $ preprended to this var, that way you know it's intended for use with jQuery
+
+					return Class.extend({
+
+						init : function() {
+							$articles = $("article.funny");
+							this.show();
+							this.hide();
+						},
+
+						show : function() {
+							$articles.fadeIn(); // BAD, the jQuery selector look-up shouldn't be done more than once 
+						},
+
+						hide: function() {
+							$articles.fadeOut(); // bad
+						}
+
+					})
+				}.call(LOLBlog)); // var mod = new LOLBlog.MyModule(); 
+
+			]]></script>
+
+			<p>
+				You'll notice that <code>$articles</code> has...well.. a <code>$</code> in front of it.  That's to ensure that you know the variable is a jQuery object!  Legibility convention....holla!
+			</p>
+
+		</div>
 		
 		
 		
@@ -909,12 +1039,22 @@
 			
 			<script type="syntaxhighlighter" class="brush: js;  toolbar: false; gutter: false;"><![CDATA[
 			
-				// an ID search is the quickest possible query, then it just takes a list of the childNodes and matches the class
+				// 1.an ID search is the quickest possible query, then it just takes a list of the childNodes and matches the class
 				$("#quoteList").children(".quotes"); 
+
 				
-				// looks for the "foo" class only in the pre-defined bar element
-				$(".foo",bar); 
+				// This example looks for the "foo" class only in the pre-defined $bar element
+
+				var $bar = $(".bar"); // 1. cool use of caching!
+
+				$(".foo", $bar); // 2. BAD, hey it's close.. I mean, at least you're caching and optimizing your selectors, but be careful! If $bar is empty, you're actually not optimizing anything at all, you're selecting on the whooooole document.  So avoid this convention!
+
+				$bar.find(".foo"); // 3. quickest possible query; and if $bar is empty, no worries, your selector will come up empty too
+
 			]]></script>
+
+			
+				
 			
 		</div>
 		
@@ -1383,12 +1523,6 @@
 					JavaScript helper library
 				</li>
 				<li>
-					<a href="http://www.jqueryui.com" target="_blank">
-						jQuery UI					
-					</a>
-					does for UX/UI what jQuery does for JavaScript
-				</li>
-				<li>
 					<a href="http://www.modernizr.com" target="_blank">
 						Modernizr
 					</a>
@@ -1401,16 +1535,16 @@
 					brings responsive layouts to older browsers
 				</li>
 				<li>
+					Follow
+					<a href="http://twitter.com/#!/functionSource" target="_blank">
+						@functionSource
+					</a>
+					for a lot of great mainly web-related technology news!
+				<li>
 					<a href="http://www.fontsquirrel.com/fontface/generator" target="_blank">
 						@font-face Generator
 					</a>
 					font embedding for all!
-				</li>
-				<li>
-					<a href="http://www.raphaeljs.com" target="_blank">
-						RaphaelJS
-					</a>
-					 easy cross browser vector drawing
 				</li>
 			</ul>
 			
